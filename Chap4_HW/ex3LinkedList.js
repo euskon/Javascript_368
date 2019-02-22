@@ -1,23 +1,11 @@
 function nth(list, num){
-  //console.log("list is:",list, "num is", num)
-  //console.log("typeof num", typeof num)
   if(num === 0){
-    console.log("num is zero!!")
     return list.value;
   }
   if(list.rest){
-
-    return nth(list.rest, num -1);
+    return nth(list.rest, num - 1);
   }
-
-  if(num < 0){
-    console.log("Invalid Lissst Size");
-    return;
-  }
-  console.log("Invalid Lissst Size");
-  return;
 }
-
 function prepend(element, subList){
   let new_root = {value: element, rest: subList};//rest: {subList}
   return new_root;
