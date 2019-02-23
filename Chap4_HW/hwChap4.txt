@@ -1,0 +1,101 @@
+1.)
+      - "When you compare objects with JavaScript’s == operator, it
+        compares by identity: it will produce true only if both objects
+        are precisely the same value. Comparing different objects will
+        return false, even if they have identical properties. There is
+        no “deep” comparison operation built into JavaScript, which
+        compares objects by contents, but it is possible to write it yourself"(EJS Chap4).
+      - "/*
+        let numbers = [5, 1, 7];
+        console.log(max(...numbers));
+        */
+        This “spreads” out the array into the function call, passing
+        its elements as separate arguments. It is possible to include
+        an array like that along with other arguments, as in
+        max(9, ...numbers, 2)."(EJS Chap4).
+      - "If we want a whole random number instead of a fractional one,
+        we can use Math.floor (which rounds down to the nearest whole \
+        number) on the result of Math.random.Multiplying the random
+        number by 10 gives us a number greater than or equal to 0 and
+        below 10. Since Math.floor rounds down, this expression will
+        produce, with equal chance, any number from 0 through 9.(EJS Chap4).
+2.)
+      //DEEP_COMPARISON |---------------------------------------------------
+      function deepEqual(o1, o2){
+      	if(typeof o1 == "object" && o1 != null &&
+             typeof o2 == "object" && o2 != null){
+            let keys_o1 = Object.keys(o1);
+            let keys_o2 = Object.keys(o2);
+            if(keys_o1.length != keys_o2.length){
+              return false;
+            } else{
+              for(let i = 0; i < keys_o1.length; i++){
+                if(keys_o1[i] != keys_o2[i]){
+                  return false;
+                }
+                if(o1[keys_o1[i]] != o2[keys_o2[i]]){
+                  if(deepEqual(o1[keys_o1[i]], o2[keys_o2[i]]) == false){
+                    return false;
+                  }
+                }
+              }
+            }
+            return true;
+          } else{
+            return (o1 === o2);
+          }
+      }
+      //SUM_OF_RANGE |-----------------------------------------------------
+      function sum(arrNums){
+        let total = 0;
+        for(let arrVal of arrNums){
+          total += arrVal;
+          //console.log(arrVal);
+        }
+        return(total);
+      }
+      function range(x, y, incr = 1){
+        let arr = [];
+        if(incr > 0){
+          for(let i = x; i <= y; i += incr){
+         	 arr.push(i);
+          }
+        } else if(incr < 0){
+          for(let i = x; i >= y; i += incr){
+            arr.push(i);
+          }
+        }
+        return(arr);
+      }
+
+      //A_LIST |-----------------------------------------------------------
+      function nth(list, num){
+        if(num === 0){
+          return list.value;
+        }
+        if(list.rest){
+          return nth(list.rest, num - 1);
+        }
+      }
+      function prepend(element, subList){
+        let new_root = {value: element, rest: subList};
+        return new_root;
+      }
+      function arrayToList(arr){
+        let list = {}
+        for(let i = (arr.length - 1); i >= 0; i --){
+           let node = prepend(arr[i], list);
+           list = node;
+      	}
+        return list;
+      }
+      function listToArray(list){
+        let arr = []
+        for(let node = list; node; node = node.rest){
+          if(node.value){
+            arr.push(node.value);
+          }
+          list = list.rest;
+        }
+        return arr;
+      }
