@@ -7,17 +7,24 @@ function nth(list, num){
   }
 }
 function prepend(element, subList){
-  let new_root = {value: element, rest: subList};//rest: {subList}
+  let new_root = {value: element, rest: subList};
   return new_root;
 }
 function arrayToList(arr){
-  //console.log(arr);
   let list = {}
   for(let i = (arr.length - 1); i >= 0; i --){
-    //console.log(arr[i]);
-     let node = {value: arr[i], rest: list};
+     let node = prepend(arr[i], list);
      list = node;
 	}
-  console.log("here is my final list:", list)
   return list;
+}
+function listToArray(list){
+  let arr = []
+  for(let node = list; node; node = node.rest){
+    if(node.value){
+      arr.push(node.value);
+    }
+    list = list.rest;
+  }
+  return arr;
 }
